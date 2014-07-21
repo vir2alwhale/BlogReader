@@ -1,5 +1,7 @@
 package com.example.blogreader;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -23,8 +25,19 @@ public class MainListActivity extends ListActivity {
         
         try{
         	URL blogFeedURL = new URL("http://blog.teamtreehouse.com/api/get_recent_summary/?count=" + NUMBER_OF_POSTS);
+        	HttpURLConnection connection = (HttpURLConnection) blogFeedURL.openConnection();
+        	connection.connect();
+        	
+        	int responseCode = connection.getResponseCode();
+        	Log.i(TAG, "Code: " + responseCode);
         }
         catch(MalformedURLException e){
+        	Log.e(TAG, "Exception caught: ");
+        }
+        catch(IOException e){
+        	Log.e(TAG, "Exception caught: ");
+        }
+        catch(Exception e){
         	Log.e(TAG, "Exception caught: ");
         }
         
