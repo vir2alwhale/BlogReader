@@ -17,5 +17,7 @@
 		<item>Jelly Bean</item>
 		<item>KitKat</item>
     </string-array>
+    <string name="error_title">Ups... sorry :(</string>
+    <string name="error_message">There was an error getting data from the blog.</string>
 
 </resources>
