@@ -17,8 +17,10 @@ import org.json.JSONObject;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
@@ -26,6 +28,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -56,8 +59,26 @@ public class MainListActivity extends ListActivity {
     	}
         //Toast.makeText(this, getString(R.string.no_items), Toast.LENGTH_LONG).show();
     }
+    
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+    	super.onListItemClick(l, v, position, id);
+    	try {
+    		JSONArray blogPosts = mBlogData.getJSONArray("posts");
+        	JSONObject blogPost = blogPosts.getJSONObject(position);
+			String blogUrl = blogPost.getString("url");
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+			intent.setData(Uri.parse(blogUrl));
+			startActivity(intent);
+		} catch (JSONException e) {
+			logException(e);
+		}
+    }
 
-
+	private void logException(Exception e) {
+		Log.e(TAG, "Exception Caught!", e);
+	}
+    
     private boolean isNetworkAvailable() {
 		ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = manager.getActiveNetworkInfo();
@@ -69,13 +90,6 @@ public class MainListActivity extends ListActivity {
 		return isAvailable;
 	}
 
-
-	@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main_list, menu);
-        return true;
-    }
 	
 	public void handleBlogResponse() {
 		mProgressBar.setVisibility(View.INVISIBLE);
@@ -105,7 +119,7 @@ public class MainListActivity extends ListActivity {
 				setListAdapter(adapter);
 				
 			} catch (JSONException e) {
-				Log.e(TAG, "Exception caught!", e);
+				logException(e);
 			}
 		}
 	}
@@ -151,14 +165,14 @@ public class MainListActivity extends ListActivity {
 	        	}
 	        }
 	        catch(MalformedURLException e){
-	        	Log.e(TAG, "MalformedURLException caught: ");
+	        	logException(e);
 	        }
 	        catch(IOException e){
-	        	Log.e(TAG, "IOException caught: ");
+	        	logException(e);
 	        }
 			// This exception happens if phone doesn't have access to Wifi.
 	        catch(Exception e){
-	        	Log.e(TAG, "GenericException caught: ");
+	        	logException(e);
 	        }
 			
 			return jsonResponse;
