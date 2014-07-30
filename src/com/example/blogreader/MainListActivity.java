@@ -25,7 +25,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
@@ -67,7 +66,8 @@ public class MainListActivity extends ListActivity {
     		JSONArray blogPosts = mBlogData.getJSONArray("posts");
         	JSONObject blogPost = blogPosts.getJSONObject(position);
 			String blogUrl = blogPost.getString("url");
-			Intent intent = new Intent(Intent.ACTION_VIEW);
+			
+			Intent intent = new Intent(this, BlogWebViewActivity.class);
 			intent.setData(Uri.parse(blogUrl));
 			startActivity(intent);
 		} catch (JSONException e) {
