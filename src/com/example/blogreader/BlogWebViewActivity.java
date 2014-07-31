@@ -27,6 +27,7 @@ public class BlogWebViewActivity extends ActionBarActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
+		// Just adding a comment to see if I can commit this to git.
 		getMenuInflater().inflate(R.menu.blog_web_view, menu);
 		return true;
 	}
